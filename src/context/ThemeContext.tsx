@@ -1,5 +1,5 @@
-import { createContext, Dispatch, SetStateAction } from "react";
-import { themeType } from "../utils/themeType";
+import { createContext, Dispatch, SetStateAction } from 'react';
+import { themeType } from '../utils/themeType';
 
 interface ThemeContextType {
   theme: themeType;
@@ -8,5 +8,5 @@ interface ThemeContextType {
 
 export const ThemeContext = createContext<ThemeContextType>({
   theme: 'light',
-  setTheme: () => { }
+  setTheme: () => {}
 });

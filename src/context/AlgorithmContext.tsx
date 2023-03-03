@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext, Dispatch, SetStateAction } from 'react';
 
 interface AlgorithmContextType {
   algorithm: string | null;
@@ -7,5 +7,5 @@ interface AlgorithmContextType {
 
 export const AlgorithmContext = createContext<AlgorithmContextType>({
   algorithm: null,
-  setAlgorithm: () => { }
+  setAlgorithm: () => {}
 });

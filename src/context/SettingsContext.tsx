@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext, Dispatch, SetStateAction } from 'react';
 
 interface SettingsContextType {
   arraySize: number;
@@ -9,7 +9,7 @@ interface SettingsContextType {
 
 export const SettingsContext = createContext<SettingsContextType>({
   arraySize: 50,
-  setArraySize: () => { },
+  setArraySize: () => {},
   sortingSpeed: 50,
-  setSortingSpeed: () => { }
+  setSortingSpeed: () => {}
 });
