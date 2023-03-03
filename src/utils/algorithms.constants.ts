@@ -1,0 +1,1 @@
+export const SORTING_ALGOS = ['Bubble Sort', 'Insertion Sort'];
