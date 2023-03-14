@@ -1,5 +1,6 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
-import { themeType } from '../utils/themeType';
+
+export type themeType = 'light' | 'dark';
 
 interface ThemeContextType {
   theme: themeType;
@@ -8,5 +9,6 @@ interface ThemeContextType {
 
 export const ThemeContext = createContext<ThemeContextType>({
   theme: 'light',
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setTheme: () => {}
 });

@@ -5,21 +5,22 @@ import {
   faCheck
 } from '@fortawesome/free-solid-svg-icons';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { Algorithm } from '../context/AlgorithContext.types';
 
 interface DropdownButtonProps {
-  dropdownOptions: Array<string>;
-  updateSelectedOption: Dispatch<SetStateAction<string | null>>;
+  dropdownOptions: Array<Algorithm>;
+  updateSelectedOption: Dispatch<SetStateAction<Algorithm | null>>;
 }
 
 function DropdownButton(Props: DropdownButtonProps) {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState<Algorithm | null>(null);
   const [isDropdownShowing, setIsDropdownShowing] = useState(false);
 
   const handleClick = () => {
     setIsDropdownShowing((prevState) => !prevState);
   };
 
-  const handleOptionClick = (optionClicked: string) => {
+  const handleOptionClick = (optionClicked: Algorithm) => {
     if (optionClicked === selectedOption) {
       setSelectedOption(null);
       Props.updateSelectedOption(null);
@@ -36,7 +37,12 @@ function DropdownButton(Props: DropdownButtonProps) {
         className="rounded-lg bg-slate-300 flex items-center w-48 py-2 px-2 justify-between"
         onClick={handleClick}
       >
-        {selectedOption ? selectedOption : 'Select Algorithm'}
+        {selectedOption
+          ? selectedOption
+              .split(' ')
+              .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+              .join(' ')
+          : 'Select Algorithm'}
         {isDropdownShowing ? (
           <FontAwesomeIcon icon={faChevronUp} />
         ) : (
@@ -55,7 +61,10 @@ function DropdownButton(Props: DropdownButtonProps) {
                 } px-1 rounded-lg my-1 hover:bg-blue-400 flex items-center justify-between`}
                 onClick={() => handleOptionClick(option)}
               >
-                {option}
+                {option
+                  .split(' ')
+                  .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                  .join(' ')}
                 {selectedOption === option && (
                   <FontAwesomeIcon icon={faCheck} />
                 )}
