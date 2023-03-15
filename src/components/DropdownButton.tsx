@@ -4,17 +4,24 @@ import {
   faChevronDown,
   faCheck
 } from '@fortawesome/free-solid-svg-icons';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { Algorithm } from '../context/AlgorithContext.types';
+import { ThemeContext } from '../context/ThemeContext';
 
 interface DropdownButtonProps {
   dropdownOptions: Array<Algorithm>;
   updateSelectedOption: Dispatch<SetStateAction<Algorithm | null>>;
 }
 
-function DropdownButton(Props: DropdownButtonProps) {
-  const [selectedOption, setSelectedOption] = useState<Algorithm | null>(null);
+function DropdownButton({
+  dropdownOptions,
+  updateSelectedOption
+}: DropdownButtonProps) {
+  const [selectedOption, setSelectedOption] = useState<Algorithm | null>(
+    'bubble sort'
+  );
   const [isDropdownShowing, setIsDropdownShowing] = useState(false);
+  const { theme } = useContext(ThemeContext);
 
   const handleClick = () => {
     setIsDropdownShowing((prevState) => !prevState);
@@ -23,18 +30,19 @@ function DropdownButton(Props: DropdownButtonProps) {
   const handleOptionClick = (optionClicked: Algorithm) => {
     if (optionClicked === selectedOption) {
       setSelectedOption(null);
-      Props.updateSelectedOption(null);
+      updateSelectedOption(null);
     } else {
       setSelectedOption(optionClicked);
-      Props.updateSelectedOption(optionClicked);
+      updateSelectedOption(optionClicked);
     }
     setIsDropdownShowing(false);
   };
 
   return (
-    <div className="bg-slate-200 flex flex-col gap-1 relative">
-      <div
-        className="rounded-lg bg-slate-300 flex items-center w-48 py-2 px-2 justify-between"
+    <div className="flex flex-col gap-1 relative">
+      <button
+        className={`rounded-lg flex items-center w-48 py-2 px-2 justify-between 
+        ${theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'}`}
         onClick={handleClick}
       >
         {selectedOption
@@ -48,17 +56,24 @@ function DropdownButton(Props: DropdownButtonProps) {
         ) : (
           <FontAwesomeIcon icon={faChevronDown} />
         )}
-      </div>
+      </button>
 
       {isDropdownShowing && (
-        <ul className="bg-slate-400 rounded-lg absolute top-11 w-full py-1 px-1">
-          {Props.dropdownOptions.map((option, idx) => {
+        <ul
+          className={`cursor-pointer rounded-lg absolute top-11 w-full py-1 px-1 ${
+            theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
+          }`}
+        >
+          {dropdownOptions.map((option, idx) => {
             return (
               <li
                 key={idx}
                 className={`${
-                  selectedOption === option ? 'bg-blue-400' : ''
-                } px-1 rounded-lg my-1 hover:bg-blue-400 flex items-center justify-between`}
+                  selectedOption === option &&
+                  (theme === 'dark' ? 'bg-indigo-700' : 'bg-sky-400')
+                } p-1 rounded-lg my-1 flex items-center justify-between ${
+                  theme === 'dark' ? 'hover:bg-indigo-700' : 'hover:bg-sky-400'
+                }`}
                 onClick={() => handleOptionClick(option)}
               >
                 {option

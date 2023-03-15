@@ -24,5 +24,5 @@ export interface SettingsInterface {
 export interface SettingsContextInterface {
   settings: SettingsInterface;
   setSettings: Dispatch<SetStateAction<SettingsInterface>>;
-  sort: (algoType: Algorithm) => void;
+  sort: (algoType: Algorithm | null) => void;
 }

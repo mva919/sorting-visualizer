@@ -14,12 +14,14 @@ function ThemeToggler() {
 
   return (
     <div
-      className="bg-indigo-200 rounded-2xl w-16 px-1 flex items-center py-1 justify-between"
+      className={`rounded-2xl w-16 px-1 flex items-center py-1 justify-between ${
+        isDark ? 'bg-indigo-800' : 'bg-sky-400'
+      } text-white`}
       onClick={handleClick}
     >
-      {isDark && <FontAwesomeIcon className="text-white pl-1" icon={faMoon} />}
+      {isDark && <FontAwesomeIcon className="pl-1" icon={faMoon} />}
       <div className="bg-white w-6 h-6 rounded-full"></div>
-      {!isDark && <FontAwesomeIcon className="text-white pr-1" icon={faSun} />}
+      {!isDark && <FontAwesomeIcon className="pr-1" icon={faSun} />}
     </div>
   );
 }

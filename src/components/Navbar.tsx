@@ -1,10 +1,13 @@
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { AlgorithmContext, SettingsContext } from '../context/AlgorithmContext';
+import { ThemeContext } from '../context/ThemeContext';
 import {
   MAX_ARRAY_SIZE,
+  MAX_SORTING_SPEED,
   MIN_ARRAY_SIZE,
+  MIN_SORTING_SPEED,
   SORTING_ALGOS
 } from '../utils/algorithms.constants';
 import DropdownButton from './DropdownButton';
@@ -13,9 +16,14 @@ import ThemeToggler from './ThemeToggler';
 function NavBar() {
   const { algorithm, setAlgorithm } = useContext(AlgorithmContext);
   const { settings, setSettings, sort } = useContext(SettingsContext);
+  const { theme } = useContext(ThemeContext);
 
   return (
-    <div className="bg-red-200 flex flex-col lg:flex-row items-center justify-between p-2">
+    <div
+      className={`flex flex-col lg:flex-row items-center justify-between p-2 ${
+        theme === 'dark' ? 'text-white' : 'text-black'
+      }`}
+    >
       <h1 className="font-bold hidden sm:inline-block text-2xl">
         Sorting Visualizer
       </h1>
@@ -67,9 +75,11 @@ function NavBar() {
         <div className="sm:flex sm:gap-2 sm:items-center hidden">
           <ThemeToggler />
           <button
-            className="rounded-lg bg-slate-200 px-4 py-1"
+            className={`rounded-lg text-white font-semibold px-8 py-1 disabled:bg-slate-400 disabled:text-slate-600 ${
+              theme === 'dark' ? 'bg-red-700' : 'bg-red-500'
+            }`}
             disabled={algorithm === null}
-            onClick={() => sort}
+            onClick={() => sort(algorithm)}
           >
             Sort
           </button>
@@ -85,40 +95,41 @@ function NavBar() {
 
 export default NavBar;
 
-// interface PhoneMenuProps {
-//   updateSortArray: Dispatch<SetStateAction<Array<number>>>;
-// }
-
 function PhoneMenu() {
   const [menuShowing, setMenuShowing] = useState(false);
   const { algorithm, setAlgorithm } = useContext(AlgorithmContext);
   const { settings, setSettings, sort } = useContext(SettingsContext);
+  const { theme } = useContext(ThemeContext);
 
   return (
-    <div className="flex w-screen items-center justify-between bg-blue-300 sm:hidden relative px-4">
+    <div className="flex w-screen items-center justify-between sm:hidden relative px-4">
       <h1 className="font-bold text-lg">Sorting Visualizer</h1>
 
       {!menuShowing ? (
         <FontAwesomeIcon
           icon={faBars}
-          className="h-6"
+          className="h-6 py-1"
           onClick={() => setMenuShowing(true)}
         />
       ) : (
         <FontAwesomeIcon
           icon={faXmark}
           onClick={() => setMenuShowing(false)}
-          className="h-8 text-red-500"
+          className="h-8 text-red-500 cursor-pointer"
         />
       )}
       {menuShowing && (
-        <div className="w-full mt-1 h-96 bg-red-500 shadow absolute top-full rounded-md flex flex-col items-center justify-between py-4">
+        <div
+          className={`${
+            theme === 'dark' ? 'bg-slate-800' : 'bg-slate-300'
+          } mt-1 h-96 shadow absolute right-0 top-full rounded-md flex flex-col items-center justify-between py-4 px-8 mx-2`}
+        >
           <div className="flex flex-col items-center">
             <label htmlFor="speed">Speed</label>
             <input
               type="range"
-              min="10"
-              max="100"
+              min={MIN_SORTING_SPEED}
+              max={MAX_SORTING_SPEED}
               step="10"
               id="speed"
               value={settings.sortingSpeed}
@@ -157,9 +168,16 @@ function PhoneMenu() {
             dropdownOptions={SORTING_ALGOS}
             updateSelectedOption={setAlgorithm}
           />
+
           <button
-            className="rounded-lg bg-slate-200 px-4 py-1 w-1/2"
+            className={`rounded-lg text-white font-semibold px-8 py-1 disabled:bg-slate-400 disabled:text-slate-600 ${
+              theme === 'dark' ? 'bg-red-700' : 'bg-red-500'
+            }`}
             disabled={algorithm === null}
+            onClick={() => {
+              sort(algorithm);
+              setMenuShowing(false);
+            }}
           >
             Sort
           </button>

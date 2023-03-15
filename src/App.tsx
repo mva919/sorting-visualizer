@@ -10,7 +10,11 @@ function App() {
   const themeValue = { theme, setTheme };
 
   return (
-    <main className="h-screen w-screen">
+    <main
+      className={`h-screen w-screen ${
+        theme === 'dark' ? 'bg-slate-900' : 'bg-white'
+      }`}
+    >
       <ThemeContext.Provider value={themeValue}>
         <AlgorithmProvider>
           <NavBar />

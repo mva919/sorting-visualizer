@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, useEffect, useState } from 'react';
 import {
+  animateSort,
+  bubbleSort,
+  insertionSort
+} from '../utils/sortingAlgorithms';
+import {
   Algorithm,
   AlgorithmContextInterface,
   AlgorithmProviderProps,
@@ -54,7 +59,23 @@ function AlgorithmProvider({ children }: AlgorithmProviderProps) {
     setArray(newArr);
   }, [settings.arraySize]);
 
-  const sort = () => {};
+  const sort = (algoType: Algorithm | null) => {
+    console.log(`${algoType} started sorting`);
+    switch (algoType) {
+      case 'bubble sort': {
+        const { bubbleArr, bubbleAnim } = bubbleSort(array);
+        animateSort(bubbleAnim, bubbleArr, settings, setArray);
+        break;
+      }
+      case 'insertion sort': {
+        const { insertionArr, insertionAnim } = insertionSort(array);
+        animateSort(insertionAnim, insertionArr, settings, setArray);
+        break;
+      }
+      default:
+        break;
+    }
+  };
 
   return (
     <ArrayContext.Provider value={{ array, setArray }}>
